@@ -24,11 +24,10 @@ const defaultData = {
 function category (state = defaultData, action) {
   switch (action.type) {
     case LIST_CAT :
-      console.log(action.name)
-      return {
-        ...state,
-        categories: action.name
-      }
+      return Object.assign({}, state, {
+        categories: []
+      })
+
     default :
       return state
   }
