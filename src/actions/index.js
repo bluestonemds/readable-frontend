@@ -1,6 +1,7 @@
 import * as API from '../API'
 export const LIST_CAT = 'LIST_CAT'
 export const LIST_POSTS = 'LIST_POSTS'
+export const CHANGE_POST_LIST_ORDER = 'CHANGE_POST_LIST_ORDER'
 
 function listCat (data) {
   return {
@@ -9,10 +10,18 @@ function listCat (data) {
   }
 }
 
-function listPosts (data) {
+export function changePostListOrder (order) {
+  return {
+    type: CHANGE_POST_LIST_ORDER,
+    order
+  }
+}
+
+function listPosts (data, orderBy) {
   return {
     type: LIST_POSTS,
-    data: data
+    data: data,
+    orderBy
   }
 }
 
@@ -25,5 +34,5 @@ export const getCats = () => dispatch => (
 export const getPosts = () => dispatch => (
   API
     .getAllPosts()
-    .then(posts => dispatch(listPosts(posts)))
+    .then(posts => dispatch(listPosts(posts, 'voteScore')))
 )
