@@ -1,36 +1,29 @@
-// import { combineReducers } from 'redux'
-// import * as API from '../API'
-import {
-  LIST_CAT
-} from '../actions'
+import { combineReducers } from 'redux'
+import { LIST_CAT, LIST_POSTS } from '../actions'
 
-const defaultData = {
-  categories: [
-    {
-      name: 'react',
-      path: 'react'
-    },
-    {
-      name: 'redux',
-      path: 'redux'
-    },
-    {
-      name: 'udacity',
-      path: 'udacity'
-    }
-  ]
-}
-
-function category (state = defaultData, action) {
+function category (state = {}, action) {
   switch (action.type) {
     case LIST_CAT :
-      return Object.assign({}, state, {
-        categories: []
-      })
-
+      return {
+        categories: action.data
+      }
     default :
       return state
   }
 }
 
-export default category
+function post (state = {}, action) {
+  switch (action.type) {
+    case LIST_POSTS :
+      return {
+        posts: action.data
+      }
+    default :
+      return state
+  }
+}
+
+export default combineReducers({
+  category,
+  post
+})
