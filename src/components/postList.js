@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 function PostList (props) {
   let post = props.posts

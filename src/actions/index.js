@@ -1,12 +1,20 @@
 import * as API from '../API'
 export const LIST_CAT = 'LIST_CAT'
 export const LIST_POSTS = 'LIST_POSTS'
+export const VIEW_CAT = 'VIEW_CAT'
 export const CHANGE_POST_LIST_ORDER = 'CHANGE_POST_LIST_ORDER'
 
 function listCat (data) {
   return {
     type: LIST_CAT,
     data: data.categories
+  }
+}
+
+export function viewCat (data) {
+  return {
+    type: VIEW_CAT,
+    data
   }
 }
 

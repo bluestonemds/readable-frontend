@@ -16,12 +16,8 @@ export const getAllPosts = () =>
   ).then(res => res.json())
     .then(data => data)
 
+// orderBy time or voteScore
 export const sort = (list, by) => {
-  let array = []
-  for (var l in list) {
-    array.push(l)
-  }
-  console.log(array)
   let sortedList = []
   if (by === 'votescore') {
     sortedList = list.sort((a, b) => {

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import PostList from './postList'
-import { getCats, getPosts, changePostListOrder } from '../actions'
+import { getCats, getPosts, changePostListOrder, viewCat } from '../actions'
 
 class App extends Component {
   componentDidMount () {
@@ -22,26 +23,30 @@ class App extends Component {
         <div className='container'>
           <h1 className='text-success'>category list</h1>
           <ul >
+            <Link to='/' ><li>all</li></Link>
             {
               categories.map((cat, index) => (
-                <li key={index}>{cat.name}</li>
+                <Link to={cat.path} onClick={() => this.props.viewCatDispatch(cat.path)}><li key={index}>{cat.name}</li></Link>
               ))
             }
           </ul>
         </div>
         <div className='container'>
+          <span>Order by</span>
           <select value={posts.orderBy} onChange={(e) => {
             this.props.changeOrder(e.target.value)
           }}>
-            <option value='votescore'>Order by VoteScore</option>
-            <option value='time'>Order by Time</option>
+            <option value='votescore'>VoteScore</option>
+            <option value='time'>Time</option>
           </select>
-          <h1 className='text-success'>post list</h1>
-          <ul >
-            <PostList
-              posts={posts}
-            />
-          </ul>
+          <h1 className='text-success'>post list - {this.props.category.currentCat}</h1>
+          <Route exact path={this.props.category.currentCat} render={() => (
+            <ul >
+              <PostList
+                posts={posts}
+              />
+            </ul>
+          )} />
         </div>
       </div>
     )
@@ -56,7 +61,8 @@ function mapDispatchToProps (dispatch) {
   return {
     listCategories: () => dispatch(getCats(dispatch)),
     listPosts: () => dispatch(getPosts(dispatch)),
-    changeOrder: (order) => dispatch(changePostListOrder(order))
+    changeOrder: (order) => dispatch(changePostListOrder(order)),
+    viewCatDispatch: (cat) => dispatch(viewCat(cat))
   }
 }
 
