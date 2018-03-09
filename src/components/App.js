@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import PostList from './postList'
-import { getCats, getPosts, changePostListOrder, viewCat } from '../actions'
+import { getCats, getPosts, changePostListOrder, getPostsByCat } from '../actions'
 
 class App extends Component {
   componentDidMount () {
@@ -23,10 +23,12 @@ class App extends Component {
         <div className='container'>
           <h1 className='text-success'>category list</h1>
           <ul >
-            <Link to='/' ><li>all</li></Link>
+            <Link to='/' onClick={() => this.props.viewCatDispatch('/')}><li>all</li></Link>
             {
               categories.map((cat, index) => (
-                <Link to={cat.path} onClick={() => this.props.viewCatDispatch(cat.path)}><li key={index}>{cat.name}</li></Link>
+                <Link to={cat.path} onClick={() => this.props.viewCatDispatch(cat.path)}>
+                  <li key={index}>{cat.name}</li>
+                </Link>
               ))
             }
           </ul>
@@ -62,7 +64,7 @@ function mapDispatchToProps (dispatch) {
     listCategories: () => dispatch(getCats(dispatch)),
     listPosts: () => dispatch(getPosts(dispatch)),
     changeOrder: (order) => dispatch(changePostListOrder(order)),
-    viewCatDispatch: (cat) => dispatch(viewCat(cat))
+    viewCatDispatch: (cat) => dispatch(getPostsByCat(cat))
   }
 }
 

@@ -16,6 +16,15 @@ export const getAllPosts = () =>
   ).then(res => res.json())
     .then(data => data)
 
+export const getPostsByCat = (cat) =>
+  fetch(
+    'http://localhost:3001/' + cat + '/posts',
+    {
+      headers: { 'Authorization': 'whatever' }
+    }
+  ).then(res => res.json())
+    .then(data => data)
+
 // orderBy time or voteScore
 export const sort = (list, by) => {
   let sortedList = []
