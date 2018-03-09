@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 import { LIST_CAT,
-         LIST_POSTS,
-         CHANGE_POST_LIST_ORDER,
-         VIEW_CAT } from '../actions'
+  LIST_POSTS,
+  CHANGE_POST_LIST_ORDER,
+  VIEW_CAT } from '../actions'
 import { sort } from '../API'
 
 function category (state = {}, action) {
