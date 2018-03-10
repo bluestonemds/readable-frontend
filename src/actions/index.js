@@ -3,6 +3,8 @@ export const LIST_CAT = 'LIST_CAT'
 export const LIST_POSTS = 'LIST_POSTS'
 export const LIST_POSTS_BY_CAT = 'LIST_POSTS_BY_CAT'
 export const CHANGE_POST_LIST_ORDER = 'CHANGE_POST_LIST_ORDER'
+export const MODAL = 'MODAL'
+export const ADD_POST = 'ADD_POST'
 
 function listCat (data) {
   return {
@@ -34,6 +36,13 @@ function listPostsByCat (data, currentCat) {
   }
 }
 
+export function addPost (data) {
+  return {
+    type: ADD_POST,
+    data
+  }
+}
+
 export const getCats = () => dispatch => (
   API
     .getAllCat()
@@ -55,5 +64,12 @@ export const getPostsByCat = (cat) => dispatch => {
     API
       .getAllPosts()
       .then(posts => dispatch(listPosts(posts, 'voteScore')))
+  }
+}
+
+export const interfaceCon = (isOpen) => {
+  return {
+    type: MODAL,
+    isOpen
   }
 }
