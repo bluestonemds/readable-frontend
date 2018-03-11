@@ -5,6 +5,7 @@ export const LIST_POSTS_BY_CAT = 'LIST_POSTS_BY_CAT'
 export const CHANGE_POST_LIST_ORDER = 'CHANGE_POST_LIST_ORDER'
 export const MODAL = 'MODAL'
 export const ADD_POST = 'ADD_POST'
+export const GET_POST = 'GET_POST'
 
 function listCat (data) {
   return {
@@ -28,6 +29,13 @@ function listPosts (data, orderBy) {
   }
 }
 
+function getPost (data) {
+  return {
+    type: GET_POST,
+    data: data
+  }
+}
+
 function listPostsByCat (data, currentCat) {
   return {
     type: LIST_POSTS_BY_CAT,
@@ -36,10 +44,17 @@ function listPostsByCat (data, currentCat) {
   }
 }
 
-export function addPost (data) {
+function addPost (postid) {
   return {
     type: ADD_POST,
-    data
+    postid
+  }
+}
+
+export const interfaceCon = (isOpen) => {
+  return {
+    type: MODAL,
+    isOpen
   }
 }
 
@@ -67,9 +82,14 @@ export const getPostsByCat = (cat) => dispatch => {
   }
 }
 
-export const interfaceCon = (isOpen) => {
-  return {
-    type: MODAL,
-    isOpen
-  }
-}
+export const getPostDispatch = (postid) => dispatch => (
+  API
+    .getPost(postid)
+    .then(post => dispatch(getPost(post)))
+)
+
+export const savePost = (data) => dispatch => (
+  API
+    .savePost(data)
+    .then(id => dispatch(addPost(id)))
+)

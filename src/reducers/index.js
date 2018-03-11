@@ -4,10 +4,16 @@ import { LIST_CAT,
   CHANGE_POST_LIST_ORDER,
   LIST_POSTS_BY_CAT,
   MODAL,
-  ADD_POST } from '../actions'
+  ADD_POST,
+  GET_POST } from '../actions'
 import { sort } from '../API'
 
-function category (state = {}, action) {
+// init State
+const initCategory = {}
+const initPost = {}
+const initInterfaceCon = {'modalIsOpen': false}
+
+function category (state = initCategory, action) {
   switch (action.type) {
     case LIST_CAT :
       return {
@@ -18,7 +24,7 @@ function category (state = {}, action) {
   }
 }
 
-function post (state = {}, action) {
+function post (state = initPost, action) {
   switch (action.type) {
     case LIST_POSTS :
       return {
@@ -38,17 +44,26 @@ function post (state = {}, action) {
         posts: sort(state.posts, action.order),
         orderBy: action.order
       }
+    case GET_POST :
+      return {
+        ...state,
+        [action.data]: {
+          posts: action.data
+        },
+        currentPostId: action.data.id
+      }
+    
     case ADD_POST :
       return {
         ...state,
-        newPosts: action.data
+        newPosts: action.postid
       }
     default :
       return state
   }
 }
 
-function interfaceCon (state = { 'modalIsOpen': false }, action) {
+function interfaceCon (state = initInterfaceCon, action) {
   switch (action.type) {
     case MODAL :
       return {

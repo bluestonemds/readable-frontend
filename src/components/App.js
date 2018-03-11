@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import PostList from './postList'
-import { getCats, getPosts, changePostListOrder, getPostsByCat, interfaceCon, addPost } from '../actions'
+import { getCats, getPosts, changePostListOrder, getPostsByCat, interfaceCon, savePost, getPostDispatch } from '../actions'
+import PostDetail from './PostDetail'
 
 const customStyles = {
   content: {
@@ -55,10 +56,18 @@ class App extends Component {
           <h1 className='text-success'>post list - {this.props.post.currentCat}</h1>
           <Route exact path={'/' + this.props.post.currentCat} render={() => (
             <ul >
-              <PostList
-                posts={posts}
-              />
+              <BrowserRouter>
+                <PostList
+                  props={this.props}
+                />
+              </BrowserRouter>
             </ul>
+          )} />
+          <Route exact path={'/' + this.props.post.currentCat + '/' + this.props.post.currentPostId} render={() => (
+            <BrowserRouter>
+              <PostDetail
+              />
+            </BrowserRouter>
           )} />
           <Link to='/createPost' onClick={() => this.props.handleModal(true)}>
             CreatePost
@@ -95,7 +104,7 @@ class App extends Component {
                 <button type='button' className='btn btn-primary' onClick={() => {
                   this.props.handlePost({
                     id: Math.random().toString(36).substring(7) + Date.now(),
-                    title: this._body.value,
+                    title: this._title.value,
                     author: this._author.value,
                     category: this._category.value,
                     body: this._body.value
@@ -123,7 +132,8 @@ function mapDispatchToProps (dispatch) {
     changeOrder: (order) => dispatch(changePostListOrder(order)),
     viewCatDispatch: (cat) => dispatch(getPostsByCat(cat)),
     handleModal: (isOpen) => dispatch(interfaceCon(isOpen)),
-    handlePost: (postData) => dispatch(addPost(postData))
+    handlePost: (postData) => dispatch(savePost(postData)),
+    getPost: (id) => dispatch(getPostDispatch(id))
   }
 }
 
