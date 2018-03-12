@@ -1,23 +1,12 @@
 import React, { Component } from 'react'
 import { Route, Link, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Modal from 'react-modal'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import PostList from './postList'
 import { getCats, getPosts, changePostListOrder, getPostsByCat, interfaceCon, savePost, getPostDispatch } from '../actions'
 import PostDetail from './PostDetail'
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)'
-  }
-}
+import CreatePost from './CreatePost'
 
 class App extends Component {
   componentDidMount () {
@@ -46,6 +35,15 @@ class App extends Component {
           </ul>
         </div>
         <div className='container'>
+          <Link to='/createPost' onClick={() => this.props.handleModal(true)}>
+            CreatePost
+          </Link>
+          <CreatePost
+            interfaceCon={this.props.interfaceCon}
+            categories={this.props.category.categories}
+            handleModal={this.props.handleModal}
+            handlePost={this.props.handlePost}
+          />
           <Route exact path={'/' + this.props.post.currentCat} render={() => (
             <div>
               <span>Order by</span>
@@ -68,52 +66,7 @@ class App extends Component {
               props={this.props}
             />
           )} />
-          <Link to='/createPost' onClick={() => this.props.handleModal(true)}>
-            CreatePost
-          </Link>
-          <Modal
-            isOpen={this.props.interfaceCon.modalIsOpen}
-            style={customStyles}
-            contentLabel='Example Modal'
-          >
-            <h2>new post</h2>
-            <form>
-              <div className='form-group'>
-                <label>title</label>
-                <input ref={(dom) => (this._title = dom)}className='form-control' />
-              </div>
-              <div className='form-group'>
-                <label>author</label>
-                <input ref={(dom) => (this._author = dom)} className='form-control' />
-              </div>
-              <div className='form-group'>
-                <label>category</label>
-                <select ref={(dom) => (this._category = dom)}className='form-control'>
-                  {categories.map((cat) => (
-                    <option value={cat.name}>{cat.name}</option>
-                  ))
-                  }
-                </select>
-              </div>
-              <div className='form-group'>
-                <label>body</label>
-                <textarea ref={(dom) => (this._body = dom)} className='form-control' />
-              </div>
-              <div className='form-group'>
-                <button type='button' className='btn btn-primary' onClick={() => {
-                  this.props.handlePost({
-                    id: Math.random().toString(36).substring(7) + Date.now(),
-                    title: this._title.value,
-                    author: this._author.value,
-                    category: this._category.value,
-                    body: this._body.value
-                  })
-                  this.props.handleModal(false)
-                }}>add</button>
-                <button className='btn btn-secondary' onClick={() => this.props.handleModal(false)}>close</button>
-              </div>
-            </form>
-          </Modal>
+
         </div>
       </div>
     )
