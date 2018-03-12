@@ -38,7 +38,7 @@ class App extends Component {
             <Link to='' onClick={() => this.props.viewCatDispatch('/')}><li>all</li></Link>
             {
               categories.map((cat, index) => (
-                <Link to={cat.path} onClick={() => this.props.viewCatDispatch(cat.path)}>
+                <Link to={'/' + cat.name} onClick={() => this.props.viewCatDispatch(cat.path)}>
                   <li key={index}>{cat.name}</li>
                 </Link>
               ))
@@ -46,28 +46,27 @@ class App extends Component {
           </ul>
         </div>
         <div className='container'>
-          <span>Order by</span>
-          <select value={posts.orderBy} onChange={(e) => {
-            this.props.changeOrder(e.target.value)
-          }}>
-            <option value='votescore'>VoteScore</option>
-            <option value='time'>Time</option>
-          </select>
-          <h1 className='text-success'>post list - {this.props.post.currentCat}</h1>
           <Route exact path={'/' + this.props.post.currentCat} render={() => (
-            <ul >
-              <BrowserRouter>
+            <div>
+              <span>Order by</span>
+              <select value={posts.orderBy} onChange={(e) => {
+                this.props.changeOrder(e.target.value)
+              }}>
+                <option value='votescore'>VoteScore</option>
+                <option value='time'>Time</option>
+              </select>
+              <h1 className='text-success'>post list - {this.props.post.currentCat}</h1>
+              <ul >
                 <PostList
                   props={this.props}
                 />
-              </BrowserRouter>
-            </ul>
+              </ul>
+            </div>
           )} />
-          <Route exact path={'/' + this.props.post.currentCat + '/' + this.props.post.currentPostId} render={() => (
-            <BrowserRouter>
-              <PostDetail
-              />
-            </BrowserRouter>
+          <Route exact path={'/' + this.props.post.currentCategory + '/' + this.props.post.currentPostId} render={() => (
+            <PostDetail
+              props={this.props}
+            />
           )} />
           <Link to='/createPost' onClick={() => this.props.handleModal(true)}>
             CreatePost

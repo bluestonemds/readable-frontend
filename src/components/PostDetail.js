@@ -1,17 +1,17 @@
 import React from 'react'
 
 function PostDetail (props) {
-  let time = props.post.timestamp
+  let post = props.props.post.currentPost
   return (
     <div className='card'>
       <div className='card-body'>
-        <h2 className='card-title'>{props.post.title}</h2>
-        <span>author: {props.post.author}</span>
-        <span>category: {props.post.category}</span>
-        <span>publish time: {time}</span>
-        <span>voteScore:{props.post.voteScore}</span>
+        <h2 className='card-title'>{post.title}</h2>
+        <div>author: {post.author}</div>
+        <div>category: {post.category}</div>
+        <div>publish time: {post.timestamp}</div>
+        <div>voteScore:{post.voteScore}</div>
         <div>
-          <p>{props.post.body}</p>
+          <p>{post.body}</p>
         </div>
       </div>
     </div>

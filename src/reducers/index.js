@@ -47,10 +47,9 @@ function post (state = initPost, action) {
     case GET_POST :
       return {
         ...state,
-        [action.data]: {
-          posts: action.data
-        },
-        currentPostId: action.data.id
+        currentPost: action.data,
+        currentPostId: action.data.id,
+        currentCategory: action.data.category
       }
     
     case ADD_POST :
