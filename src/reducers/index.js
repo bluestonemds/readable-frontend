@@ -74,7 +74,8 @@ function comment (state = initComment, action) {
       }
     case ADD_COMMENT :
       return {
-        ...state
+        ...state,
+        comment: action.data 
       }
     default :
       return state

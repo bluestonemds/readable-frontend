@@ -6,6 +6,7 @@ import { addCommentsDispatch } from '../actions'
 
 class Comments extends Component {
   render () {
+    console.log(this.props)
     let comment = this.props.comment.comment
     let post = this.props.post
     return (

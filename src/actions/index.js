@@ -64,9 +64,10 @@ function listComments (data) {
   }
 }
 
-const addComment = () => {
+const addComment = (data) => {
   return {
-    type: ADD_COMMENT
+    type: ADD_COMMENT,
+    data
   }
 }
 
@@ -129,5 +130,5 @@ export const listCommentsDispatch = (postid) => dispatch => (
 export const addCommentsDispatch = (data) => dispatch => (
   API
     .addComment(data)
-    .then(() => dispatch(addComment()))
+    .then((data) => dispatch(addComment(data)))
 )
