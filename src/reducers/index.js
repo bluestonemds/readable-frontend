@@ -3,15 +3,18 @@ import { LIST_CAT,
   LIST_POSTS,
   CHANGE_POST_LIST_ORDER,
   LIST_POSTS_BY_CAT,
-  MODAL,
+  POST_MODAL_VISIBLE,
+  COMMENT_MODAL_VISIBLE,
   ADD_POST,
-  GET_POST } from '../actions'
+  GET_POST,
+  LIST_COMMENTS} from '../actions'
 import { sort } from '../API'
 
 // init State
 const initCategory = {}
 const initPost = {}
-const initInterfaceCon = {'modalIsOpen': false}
+const initInterfaceCon = {modalIsOpen: false, commentModalIsOpen: false}
+const initComment = {}
 
 function category (state = initCategory, action) {
   switch (action.type) {
@@ -51,7 +54,7 @@ function post (state = initPost, action) {
         currentPostId: action.data.id,
         currentCategory: action.data.category
       }
-    
+
     case ADD_POST :
       return {
         ...state,
@@ -62,11 +65,26 @@ function post (state = initPost, action) {
   }
 }
 
+function comment (state = initComment, action) {
+  switch (action.type) {
+    case LIST_COMMENTS :
+      return {
+        comment: action.data
+      }
+    default :
+      return state
+  }
+}
+
 function interfaceCon (state = initInterfaceCon, action) {
   switch (action.type) {
-    case MODAL :
+    case POST_MODAL_VISIBLE :
       return {
         modalIsOpen: action.isOpen
+      }
+    case COMMENT_MODAL_VISIBLE :
+      return {
+        commentModalIsOpen: action.isOpen
       }
     default :
       return state
@@ -76,5 +94,6 @@ function interfaceCon (state = initInterfaceCon, action) {
 export default combineReducers({
   category,
   post,
+  comment,
   interfaceCon
 })

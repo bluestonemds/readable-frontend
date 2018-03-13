@@ -1,11 +1,16 @@
 import * as API from '../API'
 export const LIST_CAT = 'LIST_CAT'
+
 export const LIST_POSTS = 'LIST_POSTS'
 export const LIST_POSTS_BY_CAT = 'LIST_POSTS_BY_CAT'
 export const CHANGE_POST_LIST_ORDER = 'CHANGE_POST_LIST_ORDER'
-export const MODAL = 'MODAL'
 export const ADD_POST = 'ADD_POST'
 export const GET_POST = 'GET_POST'
+
+export const LIST_COMMENTS = 'LIST_COMMENTS'
+
+export const POST_MODAL_VISIBLE = 'POST_MODAL_VISIBLE'
+export const COMMENT_MODAL_VISIBLE = 'COMMENT_MODAL_VISIBLE'
 
 function listCat (data) {
   return {
@@ -51,9 +56,23 @@ function addPost (postid) {
   }
 }
 
-export const interfaceCon = (isOpen) => {
+function listComments (data) {
   return {
-    type: MODAL,
+    type: LIST_COMMENTS,
+    data: data
+  }
+}
+
+export const postModal = (isOpen) => {
+  return {
+    type: POST_MODAL_VISIBLE,
+    isOpen
+  }
+}
+
+export const commentModal = (isOpen) => {
+  return {
+    type: COMMENT_MODAL_VISIBLE,
     isOpen
   }
 }
@@ -92,4 +111,10 @@ export const savePost = (data) => dispatch => (
   API
     .savePost(data)
     .then(id => dispatch(addPost(id)))
+)
+
+export const listCommentsDispatch = (postid) => dispatch => (
+  API
+    .getComment(postid)
+    .then(comments => dispatch(listComments(comments)))
 )

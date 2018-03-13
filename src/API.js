@@ -55,6 +55,15 @@ export const savePost = (data) =>
       })
     }).then(res => res.json())
 
+export const getComment = (postid) =>
+  fetch(
+    'http://localhost:3001/posts/' + postid + '/comments',
+    {
+      headers: headers
+    }
+  ).then(res => res.json())
+    .then(data => data)
+
 // orderBy time or voteScore
 export const sort = (list, by) => {
   let sortedList = []

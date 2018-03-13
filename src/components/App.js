@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Route, Link, BrowserRouter } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import PostList from './postList'
-import { getCats, getPosts, changePostListOrder, getPostsByCat, interfaceCon, savePost, getPostDispatch } from '../actions'
+import { getCats, getPosts, changePostListOrder, getPostsByCat, postModal, savePost, getPostDispatch } from '../actions'
 import PostDetail from './PostDetail'
 import CreatePost from './CreatePost'
 
@@ -66,7 +66,6 @@ class App extends Component {
               props={this.props}
             />
           )} />
-
         </div>
       </div>
     )
@@ -83,7 +82,7 @@ function mapDispatchToProps (dispatch) {
     listPosts: () => dispatch(getPosts(dispatch)),
     changeOrder: (order) => dispatch(changePostListOrder(order)),
     viewCatDispatch: (cat) => dispatch(getPostsByCat(cat)),
-    handleModal: (isOpen) => dispatch(interfaceCon(isOpen)),
+    handleModal: (isOpen) => dispatch(postModal(isOpen)),
     handlePost: (postData) => dispatch(savePost(postData)),
     getPost: (id) => dispatch(getPostDispatch(id))
   }

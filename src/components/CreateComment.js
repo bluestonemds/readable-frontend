@@ -12,32 +12,18 @@ const customStyles = {
 }
 const uuidv1 = require('uuid/v1')
 const uuid = uuidv1()
-class CreatePost extends Component {
+class CreateComment extends Component {
   render () {
     return (
       <Modal
-        isOpen={this.props.interfaceCon.modalIsOpen}
+        isOpen={this.props.interfaceCon.commentModalIsOpen}
         style={customStyles}
       >
         <h2>new post</h2>
         <form>
           <div className='form-group'>
-            <label>title</label>
-            <input ref={(dom) => (this._title = dom)}className='form-control' />
-          </div>
-          <div className='form-group'>
             <label>author</label>
             <input ref={(dom) => (this._author = dom)} className='form-control' />
-          </div>
-          <div className='form-group'>
-            <label>category</label>
-            <select ref={(dom) => (this._category = dom)}className='form-control'>
-              {
-                (this.props.categories || []).map((cat) => (
-                  <option value={cat.name}>{cat.name}</option>
-                ))
-              }
-            </select>
           </div>
           <div className='form-group'>
             <label>body</label>
@@ -45,16 +31,16 @@ class CreatePost extends Component {
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-primary' onClick={() => {
-              this.props.handlePost({
+              this.props.handleComment({
                 id: uuid,
-                title: this._title.value,
+                timestamp: Date.now(),
+                body: this._body.value,
                 author: this._author.value,
-                category: this._category.value,
-                body: this._body.value
+                parentid: this.props.post.currentPostId
               })
-              this.props.handleModal(false)
+              this.props.handleCommentModal(false)
             }}>add</button>
-            <button className='btn btn-secondary' onClick={() => this.props.handleModal(false)}>close</button>
+            <button className='btn btn-secondary' onClick={() => this.props.handleCommentModal(false)}>close</button>
           </div>
         </form>
       </Modal>
@@ -62,4 +48,4 @@ class CreatePost extends Component {
   }
 }
 
-export default CreatePost
+export default CreateComment

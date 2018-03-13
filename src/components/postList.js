@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 function PostList (props) {
   let post = props.props.post.posts
-  console.log(props.props.post)
   return (
     post.map((post, index) => (
       <li key={index}>
