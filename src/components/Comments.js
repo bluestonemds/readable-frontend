@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { withRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { commentModal } from '../actions'
 import CreateComment from './CreateComment'
+import { addCommentsDispatch } from '../actions'
 
 class Comments extends Component {
   render () {
-    let comment = this.props.comments
+    let comment = this.props.comment.comment
+    let post = this.props.post
     return (
       <div>
         <h4>Comments</h4>
@@ -22,11 +23,15 @@ class Comments extends Component {
           }
         </ul>
         <div>
-          <Link to='/createComment' onClick={() => this.props.handleModal(true)}>
+          <Link to={'/' + post.currentCategory + '/' + post.currentPostId + '/createComment'}>
             CreateComment
           </Link>
-          <CreateComment
-            interfaceCon={this.props.interfaceCon}
+          <Route exact path={'/' + post.currentCategory + '/' + post.currentPostId + '/createComment'} render={(props) => (
+            <CreateComment
+              handle={this.props.addComment}
+              postid={this.props.post.currentPostId}
+            />
+          )}
           />
         </div>
       </div>
@@ -40,11 +45,11 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    handleModal: (isOpen) => dispatch(commentModal(isOpen))
+    addComment: (data) => dispatch(addCommentsDispatch(data))
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Comments)
+)(Comments))

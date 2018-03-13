@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { withRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
@@ -44,28 +44,26 @@ class App extends Component {
             handleModal={this.props.handleModal}
             handlePost={this.props.handlePost}
           />
-          <Route exact path={'/' + this.props.post.currentCat} render={() => (
-            <div>
-              <span>Order by</span>
-              <select value={posts.orderBy} onChange={(e) => {
-                this.props.changeOrder(e.target.value)
-              }}>
-                <option value='votescore'>VoteScore</option>
-                <option value='time'>Time</option>
-              </select>
-              <h1 className='text-success'>post list - {this.props.post.currentCat}</h1>
-              <ul >
-                <PostList
-                  props={this.props}
-                />
-              </ul>
-            </div>
-          )} />
-          <Route exact path={'/' + this.props.post.currentCategory + '/' + this.props.post.currentPostId} render={() => (
-            <PostDetail
-              props={this.props}
-            />
-          )} />
+          <div>
+            <Route exact path={'/' + this.props.post.currentCat} render={() => (
+              <div>
+                <span>Order by</span>
+                <select value={posts.orderBy} onChange={(e) => {
+                  this.props.changeOrder(e.target.value)
+                }}>
+                  <option value='votescore'>VoteScore</option>
+                  <option value='time'>Time</option>
+                </select>
+                <h1 className='text-success'>post list - {this.props.post.currentCat}</h1>
+                <ul >
+                  <PostList
+                    props={this.props}
+                  />
+                </ul>
+              </div>
+            )} />
+            <Route path={'/:cat/:postid'} component={PostDetail} />
+          </div>
         </div>
       </div>
     )
@@ -88,7 +86,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App))

@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { listCommentsDispatch } from '../actions'
 import Comments from './Comments'
 
 class PostDetail extends Component {
   componentDidMount () {
-    this.props.listComment(this.props.props.post.currentPost.id)
+    this.props.listComment(this.props.match.params.postid)
   }
 
   render () {
-    let post = this.props.props.post.currentPost
+    let post = this.props.post.currentPost
+    if (!post) {
+      return (<div>nothing to show.</div>)
+    }
     return (
       <div className='card'>
         <div className='card-body'>
@@ -23,7 +27,6 @@ class PostDetail extends Component {
           </div>
           <div>
             <Comments
-              comments={this.props.comment.comment}
             />
           </div>
         </div>
@@ -41,7 +44,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PostDetail)
+)(PostDetail))

@@ -8,6 +8,7 @@ export const ADD_POST = 'ADD_POST'
 export const GET_POST = 'GET_POST'
 
 export const LIST_COMMENTS = 'LIST_COMMENTS'
+export const ADD_COMMENT = 'ADD_COMMENT'
 
 export const POST_MODAL_VISIBLE = 'POST_MODAL_VISIBLE'
 export const COMMENT_MODAL_VISIBLE = 'COMMENT_MODAL_VISIBLE'
@@ -60,6 +61,12 @@ function listComments (data) {
   return {
     type: LIST_COMMENTS,
     data: data
+  }
+}
+
+const addComment = () => {
+  return {
+    type: ADD_COMMENT
   }
 }
 
@@ -117,4 +124,10 @@ export const listCommentsDispatch = (postid) => dispatch => (
   API
     .getComment(postid)
     .then(comments => dispatch(listComments(comments)))
+)
+
+export const addCommentsDispatch = (data) => dispatch => (
+  API
+    .addComment(data)
+    .then(() => dispatch(addComment()))
 )

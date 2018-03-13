@@ -7,7 +7,8 @@ import { LIST_CAT,
   COMMENT_MODAL_VISIBLE,
   ADD_POST,
   GET_POST,
-  LIST_COMMENTS} from '../actions'
+  LIST_COMMENTS,
+  ADD_COMMENT } from '../actions'
 import { sort } from '../API'
 
 // init State
@@ -70,6 +71,10 @@ function comment (state = initComment, action) {
     case LIST_COMMENTS :
       return {
         comment: action.data
+      }
+    case ADD_COMMENT :
+      return {
+        ...state
       }
     default :
       return state

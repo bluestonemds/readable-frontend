@@ -64,6 +64,21 @@ export const getComment = (postid) =>
   ).then(res => res.json())
     .then(data => data)
 
+export const addComment = (data) =>
+  fetch(
+    'http://localhost:3001/comments', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        id: data.id,
+        timestamp: data.timestamp,
+        body: data.body,
+        author: data.author,
+        parentId: data.parentId,
+        deleted: false
+      })
+    }).then(res => res.json())
+
 // orderBy time or voteScore
 export const sort = (list, by) => {
   let sortedList = []

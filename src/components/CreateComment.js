@@ -1,25 +1,12 @@
 import React, { Component } from 'react'
-import Modal from 'react-modal'
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)'
-  }
-}
+
 const uuidv1 = require('uuid/v1')
 const uuid = uuidv1()
 class CreateComment extends Component {
   render () {
     return (
-      <Modal
-        isOpen={this.props.interfaceCon.commentModalIsOpen}
-        style={customStyles}
-      >
-        <h2>new post</h2>
+      <div>
+        <h2>add comment</h2>
         <form>
           <div className='form-group'>
             <label>author</label>
@@ -31,19 +18,17 @@ class CreateComment extends Component {
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-primary' onClick={() => {
-              this.props.handleComment({
+              this.props.handle({
                 id: uuid,
                 timestamp: Date.now(),
                 body: this._body.value,
                 author: this._author.value,
-                parentid: this.props.post.currentPostId
+                parentId: this.props.postid
               })
-              this.props.handleCommentModal(false)
-            }}>add</button>
-            <button className='btn btn-secondary' onClick={() => this.props.handleCommentModal(false)}>close</button>
+            }}>Add</button>
           </div>
         </form>
-      </Modal>
+      </div>
     )
   }
 }
