@@ -4,17 +4,20 @@ import { LIST_CAT,
   CHANGE_POST_LIST_ORDER,
   LIST_POSTS_BY_CAT,
   POST_MODAL_VISIBLE,
-  COMMENT_MODAL_VISIBLE,
+  EDIT_MODAL_VISIBLE,
   ADD_POST,
   GET_POST,
+  DELETE_POST,
+  EDIT_POST,
   LIST_COMMENTS,
-  ADD_COMMENT } from '../actions'
+  ADD_COMMENT,
+  DELETE_COMMENT } from '../actions'
 import { sort } from '../API'
 
 // init State
 const initCategory = {}
 const initPost = {}
-const initInterfaceCon = {modalIsOpen: false, commentModalIsOpen: false}
+const initInterfaceCon = {modalIsOpen: false, editModalIsOpen: false}
 const initComment = {}
 
 function category (state = initCategory, action) {
@@ -55,11 +58,20 @@ function post (state = initPost, action) {
         currentPostId: action.data.id,
         currentCategory: action.data.category
       }
-
     case ADD_POST :
       return {
         ...state,
-        newPosts: action.postid
+        posts: [...state.posts, action.post]
+      }
+    case DELETE_POST :
+      return {
+        ...state,
+        posts: state.posts.filter((post) => (post.id !== action.post.id))
+      }
+    case EDIT_POST :
+      return {
+        ...state,
+        posts: action.post
       }
     default :
       return state
@@ -75,7 +87,12 @@ function comment (state = initComment, action) {
     case ADD_COMMENT :
       return {
         ...state,
-        comment: action.data 
+        comment: [...state.comment, action.data]
+      }
+    case DELETE_COMMENT :
+      return {
+        ...state,
+        comment: state.comment.filter((comment) => (comment.id !== action.comment.id))
       }
     default :
       return state
@@ -88,9 +105,9 @@ function interfaceCon (state = initInterfaceCon, action) {
       return {
         modalIsOpen: action.isOpen
       }
-    case COMMENT_MODAL_VISIBLE :
+    case EDIT_MODAL_VISIBLE :
       return {
-        commentModalIsOpen: action.isOpen
+        editModalIsOpen: action.isOpen
       }
     default :
       return state

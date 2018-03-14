@@ -55,6 +55,24 @@ export const savePost = (data) =>
       })
     }).then(res => res.json())
 
+export const editPost = (data) =>
+  fetch(
+    'http://localhost:3001/posts/' + data.postid, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify({
+        title: data.title,
+        body: data.body
+      })
+    }).then(res => res.json())
+
+export const deletePost = (postid) =>
+  fetch(
+    'http://localhost:3001/posts/' + postid, {
+      method: 'DELETE',
+      headers: headers
+    }).then(res => res.json())
+
 export const getComment = (postid) =>
   fetch(
     'http://localhost:3001/posts/' + postid + '/comments',
@@ -77,6 +95,13 @@ export const addComment = (data) =>
         parentId: data.parentId,
         deleted: false
       })
+    }).then(res => res.json())
+
+export const deleteComment = (commentid) =>
+  fetch(
+    'http://localhost:3001/comments/' + commentid, {
+      method: 'DELETE',
+      headers: headers
     }).then(res => res.json())
 
 // orderBy time or voteScore

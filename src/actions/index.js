@@ -6,12 +6,15 @@ export const LIST_POSTS_BY_CAT = 'LIST_POSTS_BY_CAT'
 export const CHANGE_POST_LIST_ORDER = 'CHANGE_POST_LIST_ORDER'
 export const ADD_POST = 'ADD_POST'
 export const GET_POST = 'GET_POST'
+export const DELETE_POST = 'DELETE_POST'
+export const EDIT_POST = 'EDIT_POST'
 
 export const LIST_COMMENTS = 'LIST_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 
 export const POST_MODAL_VISIBLE = 'POST_MODAL_VISIBLE'
-export const COMMENT_MODAL_VISIBLE = 'COMMENT_MODAL_VISIBLE'
+export const EDIT_MODAL_VISIBLE = 'EDIT_MODAL_VISIBLE'
 
 function listCat (data) {
   return {
@@ -50,10 +53,24 @@ function listPostsByCat (data, currentCat) {
   }
 }
 
-function addPost (postid) {
+function addPost (post) {
   return {
     type: ADD_POST,
-    postid
+    post
+  }
+}
+
+function deletePost (post) {
+  return {
+    type: DELETE_POST,
+    post: post
+  }
+}
+
+function editPost (post) {
+  return {
+    type: EDIT_POST,
+    post: post
   }
 }
 
@@ -71,6 +88,19 @@ const addComment = (data) => {
   }
 }
 
+function deleteComment (comment) {
+  return {
+    type: DELETE_COMMENT,
+    comment: comment
+  }
+}
+
+export const deleteCommentDispatch = (commentid) => dispatch => (
+  API
+    .deleteComment(commentid)
+    .then((comment) => dispatch(deleteComment(comment)))
+)
+
 export const postModal = (isOpen) => {
   return {
     type: POST_MODAL_VISIBLE,
@@ -78,9 +108,9 @@ export const postModal = (isOpen) => {
   }
 }
 
-export const commentModal = (isOpen) => {
+export const editModal = (isOpen) => {
   return {
-    type: COMMENT_MODAL_VISIBLE,
+    type: EDIT_MODAL_VISIBLE,
     isOpen
   }
 }
@@ -120,6 +150,18 @@ export const savePost = (data) => dispatch => (
     .savePost(data)
     .then(id => dispatch(addPost(id)))
 )
+
+export const deletePostDispatch = (postid) => dispatch => (
+  API
+    .deletePost(postid)
+    .then((postid) => dispatch(deletePost(postid)))
+)
+
+export const editPostDispatch = (post) => dispatch => {
+  API
+    .editPost(post)
+    .then(post => dispatch(editPost(post)))
+}
 
 export const listCommentsDispatch = (postid) => dispatch => (
   API

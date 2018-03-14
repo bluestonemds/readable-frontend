@@ -17,7 +17,7 @@ class CreateComment extends Component {
             <textarea ref={(dom) => (this._body = dom)} className='form-control' />
           </div>
           <div className='form-group'>
-            <button type='button' className='btn btn-primary' onClick={() => {
+            <button type='button' className='btn btn-outline-primary btn-sm' onClick={() => {
               this.props.handle({
                 id: uuid,
                 timestamp: Date.now(),

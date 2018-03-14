@@ -7,6 +7,7 @@ import PostList from './postList'
 import { getCats, getPosts, changePostListOrder, getPostsByCat, postModal, savePost, getPostDispatch } from '../actions'
 import PostDetail from './PostDetail'
 import CreatePost from './CreatePost'
+import EditPost from './EditPost'
 
 class App extends Component {
   componentDidMount () {
@@ -35,9 +36,9 @@ class App extends Component {
           </ul>
         </div>
         <div className='container'>
-          <Link to='/createPost' onClick={() => this.props.handleModal(true)}>
+          <button className='btn btn-success' onClick={() => this.props.handleModal(true)}>
             CreatePost
-          </Link>
+          </button>
           <CreatePost
             interfaceCon={this.props.interfaceCon}
             categories={this.props.category.categories}

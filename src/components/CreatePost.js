@@ -23,7 +23,7 @@ class CreatePost extends Component {
         <form>
           <div className='form-group'>
             <label>title</label>
-            <input ref={(dom) => (this._title = dom)}className='form-control' />
+            <input ref={(dom) => (this._title = dom)} className='form-control' />
           </div>
           <div className='form-group'>
             <label>author</label>
@@ -31,7 +31,7 @@ class CreatePost extends Component {
           </div>
           <div className='form-group'>
             <label>category</label>
-            <select ref={(dom) => (this._category = dom)}className='form-control'>
+            <select ref={(dom) => (this._category = dom)} className='form-control'>
               {
                 (this.props.categories || []).map((cat) => (
                   <option value={cat.name}>{cat.name}</option>

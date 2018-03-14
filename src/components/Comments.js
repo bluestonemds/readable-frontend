@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { withRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CreateComment from './CreateComment'
-import { addCommentsDispatch } from '../actions'
+import { addCommentsDispatch, deleteCommentDispatch } from '../actions'
 
 class Comments extends Component {
   render () {
-    console.log(this.props)
     let comment = this.props.comment.comment
     let post = this.props.post
     return (
@@ -18,6 +17,8 @@ class Comments extends Component {
               <li className='list-unstyled' key={index}>
                 <h4>author: {comment.author}</h4>
                 <span>voteScore: {comment.voteScore}</span>
+                <button className='btn btn-outline-primary btn-sm'>Edit</button>
+                <button className='btn btn-outline-danger btn-sm' onClick={() => (this.props.deleteComment(comment.id))}>Delete</button>
                 <div>{comment.body}</div>
               </li>
             ))
@@ -46,7 +47,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    addComment: (data) => dispatch(addCommentsDispatch(data))
+    addComment: (data) => dispatch(addCommentsDispatch(data)),
+    deleteComment: (data) => dispatch(deleteCommentDispatch(data))
   }
 }
 
