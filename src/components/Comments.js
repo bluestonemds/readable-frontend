@@ -3,7 +3,7 @@ import { withRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CreateComment from './CreateComment'
 import EditComment from './EditComment'
-import { addCommentsDispatch, deleteCommentDispatch } from '../actions'
+import { addCommentsDispatch, deleteCommentDispatch, voteCommentDispath } from '../actions'
 
 class Comments extends Component {
   render () {
@@ -18,11 +18,12 @@ class Comments extends Component {
               <li className='list-unstyled' key={index}>
                 <h4>author: {comment.author}</h4>
                 <span>voteScore: {comment.voteScore}</span>
-                <button className='btn btn-outline-primary btn-sm'>Edit</button>
-                <Link to={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'}>
+                <Link className='btn btn-outline-primary btn-sm' to={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'}>
                    EditComment
                 </Link>
                 <button className='btn btn-outline-danger btn-sm' onClick={() => (this.props.deleteComment(comment.id))}>Delete</button>
+                <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(comment.id, 'upVote'))}>upVote</button>
+                <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(comment.id, 'downVote'))}>downVote</button>
                 <div>{comment.body}</div>
                 <Route exact path={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'} render={(props) => (
                   <EditComment
@@ -59,7 +60,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     addComment: (data) => dispatch(addCommentsDispatch(data)),
-    deleteComment: (data) => dispatch(deleteCommentDispatch(data))
+    deleteComment: (data) => dispatch(deleteCommentDispatch(data)),
+    handleVote: (commentid, status) => dispatch(voteCommentDispath(commentid, status))
   }
 }
 

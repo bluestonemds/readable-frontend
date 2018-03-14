@@ -12,7 +12,9 @@ import { LIST_CAT,
   LIST_COMMENTS,
   ADD_COMMENT,
   DELETE_COMMENT,
-  EDIT_COMMENT } from '../actions'
+  EDIT_COMMENT,
+  VOTE_POST,
+  VOTE_COMMENT } from '../actions'
 import { sort } from '../API'
 
 // init State
@@ -55,7 +57,7 @@ function post (state = initPost, action) {
     case GET_POST :
       return {
         ...state,
-        currentPost: action.data,
+        posts: action.data,
         currentPostId: action.data.id,
         currentCategory: action.data.category
       }
@@ -73,6 +75,18 @@ function post (state = initPost, action) {
       return {
         ...state,
         posts: [...state.posts.filter((post) => (post.id !== action.post.id)), action.post]
+      }
+    case VOTE_POST :
+      if (Array.isArray(state.posts)) {
+        return {
+          ...state,
+          posts: [...state.posts.filter((post) => (post.id !== action.post.id)), action.post]
+        }
+      } else {
+        return {
+          ...state,
+          posts: action.post
+        }
       }
     default :
       return state
@@ -96,6 +110,11 @@ function comment (state = initComment, action) {
         comment: state.comment.filter((comment) => (comment.id !== action.comment.id))
       }
     case EDIT_COMMENT :
+      return {
+        ...state,
+        comment: [...state.comment.filter((comment) => (comment.id !== action.comment.id)), action.comment]
+      }
+    case VOTE_COMMENT :
       return {
         ...state,
         comment: [...state.comment.filter((comment) => (comment.id !== action.comment.id)), action.comment]

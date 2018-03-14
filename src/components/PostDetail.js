@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { listCommentsDispatch } from '../actions'
+import { listCommentsDispatch, votePostDispath } from '../actions'
 import Comments from './Comments'
 
 class PostDetail extends Component {
@@ -10,7 +10,7 @@ class PostDetail extends Component {
   }
 
   render () {
-    let post = this.props.post.currentPost
+    let post = this.props.post.posts
     if (!post) {
       return (<div>nothing to show.</div>)
     }
@@ -25,6 +25,8 @@ class PostDetail extends Component {
           <div>
             <p>{post.body}</p>
           </div>
+          <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(post.id, 'upVote'))}>upVote</button>
+          <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(post.id, 'downVote'))}>downVote</button>
           <div>
             <Comments
             />
@@ -40,7 +42,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    listComment: (postid) => dispatch(listCommentsDispatch(postid))
+    listComment: (postid) => dispatch(listCommentsDispatch(postid)),
+    handleVote: (postid, status) => dispatch(votePostDispath(postid, status))
   }
 }
 

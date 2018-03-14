@@ -4,7 +4,6 @@ import { editCommentDispatch } from '../actions'
 
 class CreateComment extends Component {
   render () {
-    console.log(this.props)
     return (
       <div>
         <h2>edit comment</h2>
@@ -15,7 +14,8 @@ class CreateComment extends Component {
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-outline-primary btn-sm' onClick={() => {
-              this.props.handle({
+              this.props.editComment({
+                id: this.props.currentComment.id,
                 timestamp: Date.now(),
                 body: this._body.value
               })

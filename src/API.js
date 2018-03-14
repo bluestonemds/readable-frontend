@@ -73,6 +73,16 @@ export const deletePost = (postid) =>
       headers: headers
     }).then(res => res.json())
 
+export const votePost = (postid, status) =>
+  fetch(
+    'http://localhost:3001/posts/' + postid, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        option: status
+      })
+    }).then(res => res.json())
+
 export const getComment = (postid) =>
   fetch(
     'http://localhost:3001/posts/' + postid + '/comments',
@@ -112,6 +122,16 @@ export const editComment = (data) =>
       body: JSON.stringify({
         timestamp: data.timestamp,
         body: data.body
+      })
+    }).then(res => res.json())
+
+export const voteComment = (commentid, status) =>
+  fetch(
+    'http://localhost:3001/comments/' + commentid, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        option: status
       })
     }).then(res => res.json())
 
