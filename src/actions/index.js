@@ -12,6 +12,7 @@ export const EDIT_POST = 'EDIT_POST'
 export const LIST_COMMENTS = 'LIST_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const EDIT_COMMENT = 'EDIT_COMMENT'
 
 export const POST_MODAL_VISIBLE = 'POST_MODAL_VISIBLE'
 export const EDIT_MODAL_VISIBLE = 'EDIT_MODAL_VISIBLE'
@@ -95,6 +96,13 @@ function deleteComment (comment) {
   }
 }
 
+function editComment (comment) {
+  return {
+    type: EDIT_COMMENT,
+    comment: comment
+  }
+}
+
 export const deleteCommentDispatch = (commentid) => dispatch => (
   API
     .deleteComment(commentid)
@@ -174,3 +182,9 @@ export const addCommentsDispatch = (data) => dispatch => (
     .addComment(data)
     .then((data) => dispatch(addComment(data)))
 )
+
+export const editCommentDispatch = (comment) => dispatch => {
+  API
+    .editComment(comment)
+    .then(comment => dispatch(editComment(comment)))
+}

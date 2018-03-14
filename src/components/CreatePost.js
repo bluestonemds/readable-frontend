@@ -11,7 +11,6 @@ const customStyles = {
   }
 }
 const uuidv1 = require('uuid/v1')
-const uuid = uuidv1()
 class CreatePost extends Component {
   render () {
     return (
@@ -45,6 +44,7 @@ class CreatePost extends Component {
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-primary' onClick={() => {
+              const uuid = uuidv1()
               this.props.handlePost({
                 id: uuid,
                 title: this._title.value,

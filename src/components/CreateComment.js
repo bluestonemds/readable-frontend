@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 const uuidv1 = require('uuid/v1')
-const uuid = uuidv1()
 class CreateComment extends Component {
   render () {
     return (
@@ -18,6 +17,7 @@ class CreateComment extends Component {
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-outline-primary btn-sm' onClick={() => {
+              const uuid = uuidv1()
               this.props.handle({
                 id: uuid,
                 timestamp: Date.now(),

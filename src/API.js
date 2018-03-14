@@ -57,7 +57,7 @@ export const savePost = (data) =>
 
 export const editPost = (data) =>
   fetch(
-    'http://localhost:3001/posts/' + data.postid, {
+    'http://localhost:3001/posts/' + data.id, {
       method: 'PUT',
       headers: headers,
       body: JSON.stringify({
@@ -102,6 +102,17 @@ export const deleteComment = (commentid) =>
     'http://localhost:3001/comments/' + commentid, {
       method: 'DELETE',
       headers: headers
+    }).then(res => res.json())
+
+export const editComment = (data) =>
+  fetch(
+    'http://localhost:3001/comments/' + data.id, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify({
+        timestamp: data.timestamp,
+        body: data.body
+      })
     }).then(res => res.json())
 
 // orderBy time or voteScore

@@ -21,7 +21,7 @@ class EditPost extends Component {
         isOpen={this.props.interfaceCon.editModalIsOpen}
         style={customStyles}
       >
-        <h2>new post</h2>
+        <h2>edit post</h2>
         <form>
           <div className='form-group'>
             <label>title</label>

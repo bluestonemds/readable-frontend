@@ -11,7 +11,8 @@ import { LIST_CAT,
   EDIT_POST,
   LIST_COMMENTS,
   ADD_COMMENT,
-  DELETE_COMMENT } from '../actions'
+  DELETE_COMMENT,
+  EDIT_COMMENT } from '../actions'
 import { sort } from '../API'
 
 // init State
@@ -71,7 +72,7 @@ function post (state = initPost, action) {
     case EDIT_POST :
       return {
         ...state,
-        posts: action.post
+        posts: [...state.posts.filter((post) => (post.id !== action.post.id)), action.post]
       }
     default :
       return state
@@ -93,6 +94,11 @@ function comment (state = initComment, action) {
       return {
         ...state,
         comment: state.comment.filter((comment) => (comment.id !== action.comment.id))
+      }
+    case EDIT_COMMENT :
+      return {
+        ...state,
+        comment: [...state.comment.filter((comment) => (comment.id !== action.comment.id)), action.comment]
       }
     default :
       return state

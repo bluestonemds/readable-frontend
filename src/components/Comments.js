@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CreateComment from './CreateComment'
+import EditComment from './EditComment'
 import { addCommentsDispatch, deleteCommentDispatch } from '../actions'
 
 class Comments extends Component {
@@ -18,8 +19,17 @@ class Comments extends Component {
                 <h4>author: {comment.author}</h4>
                 <span>voteScore: {comment.voteScore}</span>
                 <button className='btn btn-outline-primary btn-sm'>Edit</button>
+                <Link to={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'}>
+                   EditComment
+                </Link>
                 <button className='btn btn-outline-danger btn-sm' onClick={() => (this.props.deleteComment(comment.id))}>Delete</button>
                 <div>{comment.body}</div>
+                <Route exact path={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'} render={(props) => (
+                  <EditComment
+                    currentComment={comment}
+                  />
+                )}
+                />
               </li>
             ))
           }
@@ -35,6 +45,7 @@ class Comments extends Component {
             />
           )}
           />
+
         </div>
       </div>
     )
