@@ -57,7 +57,7 @@ function post (state = initPost, action) {
     case GET_POST :
       return {
         ...state,
-        posts: action.data,
+        posts: [action.data],
         currentPostId: action.data.id,
         currentCategory: action.data.category
       }
@@ -67,14 +67,28 @@ function post (state = initPost, action) {
         posts: [...state.posts, action.post]
       }
     case DELETE_POST :
-      return {
-        ...state,
-        posts: state.posts.filter((post) => (post.id !== action.post.id))
+      if (Array.isArray(state.posts)) {
+        return {
+          ...state,
+          posts: state.posts.filter((post) => (post.id !== action.post.id))
+        }
+      } else {
+        return {
+          ...state,
+          posts: ''
+        }
       }
     case EDIT_POST :
-      return {
-        ...state,
-        posts: [...state.posts.filter((post) => (post.id !== action.post.id)), action.post]
+      if (Array.isArray(state.posts)) {
+        return {
+          ...state,
+          posts: [...state.posts.filter((post) => (post.id !== action.post.id)), action.post]
+        }
+      } else {
+        return {
+          ...state,
+          posts: action.post
+        }
       }
     case VOTE_POST :
       if (Array.isArray(state.posts)) {

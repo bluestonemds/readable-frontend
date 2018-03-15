@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { withRouter, Route, Link } from 'react-router-dom'
+import { withRouter as Router, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import './App.css'
-import PostList from './postList'
 import { getCats, getPosts, changePostListOrder, getPostsByCat, postModal, savePost, getPostDispatch } from '../actions'
+import PostList from './postList'
 import PostDetail from './PostDetail'
 import CreatePost from './CreatePost'
 
@@ -36,8 +36,8 @@ class App extends Component {
           </ul>
         </div>
         <div className='container'>
-          <div>
-            <Route exact path={'/' + this.props.post.currentCat} render={() => (
+          <Route path='/:cat' render={() => (
+            <div>
               <div>
                 <div className='row'>
                   <div className='col right'>
@@ -52,26 +52,56 @@ class App extends Component {
                     </select>
                   </div>
                   <div className='col-8' />
-                  <button className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
+                  <Link to='/createpost' className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
                      CreatePost
-                  </button>
-                  <CreatePost
-                    interfaceCon={this.props.interfaceCon}
-                    categories={this.props.category.categories}
-                    handleModal={this.props.handleModal}
-                    handlePost={this.props.handlePost}
-                  />
+                  </Link>
                 </div>
                 <h2 className='text-success'>post list</h2>
-                <ul className='list-unstyled'>
-                  <PostList
-                    props={this.props}
-                  />
-                </ul>
               </div>
-            )} />
-            <Route path={'/:cat/:postid'} component={PostDetail} />
-          </div>
+              <PostList
+              />
+            </div>
+          )} />
+          <Route exact path='/' render={() => (
+            <div>
+              <div>
+                <div className='row'>
+                  <div className='col right'>
+                    <label className='col-form-label'>Order by</label>
+                  </div>
+                  <div className='col'>
+                    <select className='form-control' value={posts.orderBy} onChange={(e) => {
+                      this.props.changeOrder(e.target.value)
+                    }}>
+                      <option value='votescore'>VoteScore</option>
+                      <option value='time'>Time</option>
+                    </select>
+                  </div>
+                  <div className='col-8' />
+                  <Link to='/createpost' className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
+                     CreatePost
+                  </Link>
+                </div>
+                <h2 className='text-success'>post list</h2>
+              </div>
+              <PostList
+              />
+            </div>
+          )} />
+          
+          <Route path={'/:cat/:postid'} render={() => (
+            <PostDetail
+              post={this.props.post}
+            />
+          )} />
+          <Route path='/createpost' render={() => (
+            <CreatePost
+              interfaceCon={this.props.interfaceCon}
+              categories={this.props.category.categories}
+              handleModal={this.props.handleModal}
+              handlePost={this.props.handlePost}
+            />
+          )} />
         </div>
       </div>
     )
@@ -94,7 +124,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default withRouter(connect(
+export default Router(connect(
   mapStateToProps,
   mapDispatchToProps
 )(App))

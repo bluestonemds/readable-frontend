@@ -16,6 +16,7 @@ const customStyles = {
 
 class EditPost extends Component {
   render () {
+    console.log(this.props)
     return (
       <Modal
         isOpen={this.props.interfaceCon.editModalIsOpen}
@@ -25,11 +26,11 @@ class EditPost extends Component {
         <form>
           <div className='form-group'>
             <label>title</label>
-            <input ref={(dom) => (this._title = dom)} defaultValue={this.props.title} className='form-control' />
+            <input ref={(dom) => (this._title = dom)} defaultValue={this.props.props.title} className='form-control' />
           </div>
           <div className='form-group'>
             <label>body</label>
-            <textarea ref={(dom) => (this._body = dom)} defaultValue={this.props.body} className='form-control' />
+            <textarea ref={(dom) => (this._body = dom)} defaultValue={this.props.props.body} className='form-control' />
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-primary' onClick={() => {
