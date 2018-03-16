@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter as Router, Route, Link } from 'react-router-dom'
+import { withRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
@@ -8,6 +8,7 @@ import { getCats, getPosts, changePostListOrder, getPostsByCat, postModal, saveP
 import PostList from './postList'
 import PostDetail from './PostDetail'
 import CreatePost from './CreatePost'
+import ChangeOrder from './ChangeOrder'
 
 class App extends Component {
   componentDidMount () {
@@ -40,20 +41,9 @@ class App extends Component {
             <div>
               <div>
                 <div className='row'>
-                  <div className='col right'>
-                    <label className='col-form-label'>Order by</label>
-                  </div>
-                  <div className='col'>
-                    <select className='form-control' value={posts.orderBy} onChange={(e) => {
-                      this.props.changeOrder(e.target.value)
-                    }}>
-                      <option value='votescore'>VoteScore</option>
-                      <option value='time'>Time</option>
-                    </select>
-                  </div>
                   <div className='col-8' />
                   <Link to='/createpost' className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
-                     CreatePost
+                    CreatePost
                   </Link>
                 </div>
                 <h2 className='text-success'>post list</h2>
@@ -66,20 +56,12 @@ class App extends Component {
             <div>
               <div>
                 <div className='row'>
-                  <div className='col right'>
-                    <label className='col-form-label'>Order by</label>
-                  </div>
-                  <div className='col'>
-                    <select className='form-control' value={posts.orderBy} onChange={(e) => {
-                      this.props.changeOrder(e.target.value)
-                    }}>
-                      <option value='votescore'>VoteScore</option>
-                      <option value='time'>Time</option>
-                    </select>
-                  </div>
+                  <ChangeOrder
+                    props={this.props}
+                  />
                   <div className='col-8' />
                   <Link to='/createpost' className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
-                     CreatePost
+                    CreatePost
                   </Link>
                 </div>
                 <h2 className='text-success'>post list</h2>
@@ -88,7 +70,6 @@ class App extends Component {
               />
             </div>
           )} />
-          
           <Route path={'/:cat/:postid'} render={() => (
             <PostDetail
               post={this.props.post}

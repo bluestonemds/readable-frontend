@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CreateComment from './CreateComment'
@@ -7,11 +7,10 @@ import { addCommentsDispatch, deleteCommentDispatch, voteCommentDispath } from '
 
 class Comments extends Component {
   render () {
-    console.log(this.props)
     let comment = this.props.comment.comment
     let post = this.props.post
     return (
-      <div>
+      <Fragment>
         <h4>Comments</h4>
         <ul>
           {
@@ -47,9 +46,8 @@ class Comments extends Component {
             />
           )}
           />
-
         </div>
-      </div>
+      </Fragment>
     )
   }
 }

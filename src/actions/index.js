@@ -153,7 +153,6 @@ export const getPosts = () => dispatch => (
 
 export const getPostsByCat = (cat) => dispatch => {
   if (cat !== '/') {
-    console.log('/')
     API
       .getPostsByCat(cat)
       .then(posts => dispatch(listPostsByCat(posts, cat)))

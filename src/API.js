@@ -83,7 +83,7 @@ export const votePost = (postid, status) =>
       })
     }).then(res => res.json())
 
-export const getComment = (postid) =>
+export const getComment = (postid) => 
   fetch(
     'http://localhost:3001/posts/' + postid + '/comments',
     {

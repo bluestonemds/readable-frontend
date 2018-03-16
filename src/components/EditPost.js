@@ -16,7 +16,6 @@ const customStyles = {
 
 class EditPost extends Component {
   render () {
-    console.log(this.props)
     return (
       <Modal
         isOpen={this.props.interfaceCon.editModalIsOpen}

@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { listCommentsDispatch, votePostDispath, editModal, deletePostDispatch } from '../actions'
+import { listCommentsDispatch, votePostDispath, editModal, deletePostDispatch, getPostDispatch } from '../actions'
 import Comments from './Comments'
 import EditPost from './EditPost'
 
 class PostDetail extends Component {
   componentDidMount () {
+    this.props.listPost(this.props.match.params.postid)
     this.props.listComment(this.props.match.params.postid)
   }
 
   render () {
-    let post = this.props.post.posts[0]
-    if (post === '') {
+    let post
+    if (!this.props.post.posts) {
       return (<div>nothing to show.</div>)
+    } else {
+      post = this.props.post.posts[0]
     }
     return (
       <div className='card'>
@@ -52,7 +55,8 @@ function mapDispatchToProps (dispatch) {
     listComment: (postid) => dispatch(listCommentsDispatch(postid)),
     handleVote: (postid, status) => dispatch(votePostDispath(postid, status)),
     handleModal: (isOpen) => dispatch(editModal(isOpen)),
-    deletePost: (postid) => dispatch(deletePostDispatch(postid))
+    deletePost: (postid) => dispatch(deletePostDispatch(postid)),
+    listPost: (cat) => dispatch(getPostDispatch(cat))
   }
 }
 

@@ -92,9 +92,17 @@ function post (state = initPost, action) {
       }
     case VOTE_POST :
       if (Array.isArray(state.posts)) {
+        const array = []
+        const newState = state.posts
+        for (var i = 0; i < newState.length; i++) {
+          if (newState[i].id === action.post.id) {
+            newState[i].voteScore = action.post.voteScore
+          }
+          array.push(newState[i])
+        }
         return {
           ...state,
-          posts: [...state.posts.filter((post) => (post.id !== action.post.id)), action.post]
+          posts: array
         }
       } else {
         return {
@@ -110,6 +118,7 @@ function post (state = initPost, action) {
 function comment (state = initComment, action) {
   switch (action.type) {
     case LIST_COMMENTS :
+    console.log(action)
       return {
         comment: action.data
       }
@@ -129,9 +138,17 @@ function comment (state = initComment, action) {
         comment: [...state.comment.filter((comment) => (comment.id !== action.comment.id)), action.comment]
       }
     case VOTE_COMMENT :
+      const array = []
+      const newState = state.comment
+      for (var i = 0; i < newState.length; i++) {
+        if (newState[i].id === action.comment.id) {
+          newState[i].voteScore = action.comment.voteScore
+        }
+        array.push(newState[i])
+      }
       return {
         ...state,
-        comment: [...state.comment.filter((comment) => (comment.id !== action.comment.id)), action.comment]
+        comment: array
       }
     default :
       return state
