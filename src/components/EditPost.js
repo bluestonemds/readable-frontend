@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
-import { editPostDispatch, editModal } from '../actions'
+import { editPostDispatch, editModal, getPostDispatch } from '../actions'
 
 const customStyles = {
   content: {
@@ -15,7 +15,16 @@ const customStyles = {
 }
 
 class EditPost extends Component {
+  componentDidMount () {
+    this.props.getPost(this.props.match.params.postid)
+  }
+
   render () {
+    if (!this.props.post.posts) return (<h4>nothing</h4>)
+    if (this.props.match.params.postid !== this.props.post.posts[0].id) {
+      return (<h4>nothing</h4>)
+    }
+    let post = this.props.post.posts[0]
     return (
       <Modal
         isOpen={this.props.interfaceCon.editModalIsOpen}
@@ -25,16 +34,16 @@ class EditPost extends Component {
         <form>
           <div className='form-group'>
             <label>title</label>
-            <input ref={(dom) => (this._title = dom)} defaultValue={this.props.props.title} className='form-control' />
+            <input ref={(dom) => (this._title = dom)} defaultValue={post.title} className='form-control' />
           </div>
           <div className='form-group'>
             <label>body</label>
-            <textarea ref={(dom) => (this._body = dom)} defaultValue={this.props.props.body} className='form-control' />
+            <textarea ref={(dom) => (this._body = dom)} defaultValue={post.body} className='form-control' />
           </div>
           <div className='form-group'>
             <button type='button' className='btn btn-primary' onClick={() => {
               this.props.editPost({
-                id: this.props.props.id,
+                id: post.id,
                 title: this._title.value,
                 body: this._body.value
               })
@@ -55,7 +64,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     handleModal: (isOpen) => dispatch(editModal(isOpen)),
-    editPost: (data) => dispatch(editPostDispatch(data))
+    editPost: (data) => dispatch(editPostDispatch(data)),
+    getPost: (postid) => dispatch(getPostDispatch(postid))
   }
 }
 

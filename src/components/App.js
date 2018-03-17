@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { withRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import '../assets/css/bootstrap.css'
 import '../assets/css/bootstrap-grid.css'
 import './App.css'
-import { getCats, getPosts, changePostListOrder, getPostsByCat, postModal, savePost, getPostDispatch } from '../actions'
+import { getCats, changePostListOrder, getPostsByCat, postModal, savePost, getPostDispatch } from '../actions'
 import PostList from './postList'
 import PostDetail from './PostDetail'
 import CreatePost from './CreatePost'
 import ChangeOrder from './ChangeOrder'
+import EditPost from './EditPost'
 
 class App extends Component {
   componentDidMount () {
     this.props.listCategories()
-    this.props.listPosts()
   }
 
   render () {
@@ -23,67 +23,42 @@ class App extends Component {
     if (!categories) categories = []
     return (
       <div>
-        <div className='container category'>
-          <h2 className='text-success'>category list</h2>
-          <ul className='nav bg-light'>
-            <Link className='nav-link' to='/' onClick={() => this.props.viewCatDispatch('/')}><li className='nav-item'>all</li></Link>
-            {
-              categories.map((cat, index) => (
-                <Link className='nav-link' to={'/' + cat.name} onClick={() => this.props.viewCatDispatch(cat.path)}>
-                  <li className='nav-item' key={index}>{cat.name}</li>
-                </Link>
-              ))
-            }
-          </ul>
-        </div>
-        <div className='container'>
-          <Route path='/:cat' render={() => (
-            <div>
-              <div>
-                <div className='row'>
-                  <div className='col-8' />
-                  <Link to='/createpost' className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
-                    CreatePost
+        <Router>
+          <div className='container'>
+            <h2 className='text-success'>category list</h2>
+            <ul className='nav bg-light'>
+              <Link className='nav-link' to='/' onClick={() => this.props.viewCatDispatch('/')}><li className='nav-item'>all</li></Link>
+              {
+                categories.map((cat, index) => (
+                  <Link className='nav-link' to={'/' + cat.name} onClick={() => this.props.viewCatDispatch(cat.path)}>
+                    <li className='nav-item' key={index}>{cat.name}</li>
                   </Link>
-                </div>
-                <h2 className='text-success'>post list</h2>
-              </div>
-              <PostList
+                ))
+              }
+            </ul>
+            <div className='row'>
+              <ChangeOrder
+                props={this.props}
               />
+              <div className='col-8' />
+              <button className='btn btn-success left' onClick={() => this.props.handleModal(true)}> CreatePost </button>
             </div>
-          )} />
-          <Route exact path='/' render={() => (
-            <div>
-              <div>
-                <div className='row'>
-                  <ChangeOrder
-                    props={this.props}
-                  />
-                  <div className='col-8' />
-                  <Link to='/createpost' className='btn btn-success left' onClick={() => this.props.handleModal(true)}>
-                    CreatePost
-                  </Link>
-                </div>
-                <h2 className='text-success'>post list</h2>
-              </div>
-              <PostList
-              />
-            </div>
-          )} />
-          <Route path={'/:cat/:postid'} render={() => (
-            <PostDetail
-              post={this.props.post}
-            />
-          )} />
-          <Route path='/createpost' render={() => (
             <CreatePost
               interfaceCon={this.props.interfaceCon}
               categories={this.props.category.categories}
               handleModal={this.props.handleModal}
               handlePost={this.props.handlePost}
             />
-          )} />
-        </div>
+            <div>
+              <Switch>
+                <Route exact path='/:cat/:postid/edit' component={EditPost} />
+                <Route path='/:cat/:postid' component={PostDetail} />
+                <Route exact path='/:cat' component={PostList} />
+                <Route exact path='/' component={PostList} />
+              </Switch>
+            </div>
+          </div>
+        </Router>
       </div>
     )
   }
@@ -96,7 +71,6 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     listCategories: () => dispatch(getCats(dispatch)),
-    listPosts: () => dispatch(getPosts(dispatch)),
     changeOrder: (order) => dispatch(changePostListOrder(order)),
     viewCatDispatch: (cat) => dispatch(getPostsByCat(cat)),
     handleModal: (isOpen) => dispatch(postModal(isOpen)),
@@ -105,7 +79,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default Router(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App))
+)(App)

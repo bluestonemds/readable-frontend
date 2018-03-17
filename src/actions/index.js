@@ -48,11 +48,10 @@ function getPost (data) {
   }
 }
 
-function listPostsByCat (data, currentCat) {
+function listPostsByCat (data) {
   return {
     type: LIST_POSTS_BY_CAT,
-    data,
-    currentCat
+    data
   }
 }
 

@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter as Router, Route, Link } from 'react-router-dom'
-import { deletePostDispatch, editModal, votePostDispath, getPostDispatch } from '../actions'
-import EditPost from './EditPost'
+import { Link } from 'react-router-dom'
+import { deletePostDispatch, editModal, votePostDispath, getPostDispatch, getPostsByCat } from '../actions'
 
 class PostList extends Component {
+  componentDidMount () {
+    let cat = this.props.match.params.cat === '' ? this.props.match.params.cat : '/'
+    this.props.listPosts(cat)
+  }
   render () {
     let post = this.props.post.posts
     if (!post) {
@@ -12,6 +15,7 @@ class PostList extends Component {
     }
     return (
       <div>
+        <h2 className='text-success'>post list</h2>
         <ul className='list-unstyled'>
           {post.map((post, index) => (
             <li key={index}>
@@ -32,13 +36,6 @@ class PostList extends Component {
               <p>
                 <span>author: {post.author} commentCount: {post.commentCount} voteScrore: {post.voteScore} </span>
               </p>
-              <Route path={`/${post.category}/${post.id}/edit`} render={() => (
-                <EditPost
-                  props={post}
-                  interfaceCon={this.props.interfaceCon}
-                />
-              )}
-              />
             </li>
           ))}
         </ul>
@@ -56,11 +53,12 @@ function mapDispatchToProps (dispatch) {
     deletePost: (postid) => dispatch(deletePostDispatch(postid)),
     handleModal: (isOpen) => dispatch(editModal(isOpen)),
     handleVote: (postid, status) => dispatch(votePostDispath(postid, status)),
-    getPost: (postid) => dispatch(getPostDispatch(postid))
+    getPost: (postid) => dispatch(getPostDispatch(postid)),
+    listPosts: (cat) => dispatch(getPostsByCat(cat))
   }
 }
 
-export default Router(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PostList))
+)(PostList)

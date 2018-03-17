@@ -39,14 +39,12 @@ function post (state = initPost, action) {
     case LIST_POSTS :
       return {
         posts: action.data,
-        orderBy: action.orderBy,
-        currentCat: '/'
+        orderBy: action.orderBy
       }
     case LIST_POSTS_BY_CAT :
       return {
         ...state,
-        posts: action.data,
-        currentCat: action.currentCat
+        posts: action.data
       }
     case CHANGE_POST_LIST_ORDER :
       return {
@@ -57,9 +55,7 @@ function post (state = initPost, action) {
     case GET_POST :
       return {
         ...state,
-        posts: [action.data],
-        currentPostId: action.data.id,
-        currentCategory: action.data.category
+        posts: [action.data]
       }
     case ADD_POST :
       return {
@@ -92,17 +88,9 @@ function post (state = initPost, action) {
       }
     case VOTE_POST :
       if (Array.isArray(state.posts)) {
-        const array = []
-        const newState = state.posts
-        for (var i = 0; i < newState.length; i++) {
-          if (newState[i].id === action.post.id) {
-            newState[i].voteScore = action.post.voteScore
-          }
-          array.push(newState[i])
-        }
         return {
           ...state,
-          posts: array
+          posts: state.posts.map((post) => post.id === action.post.id ? action.post : post)
         }
       } else {
         return {
@@ -118,7 +106,6 @@ function post (state = initPost, action) {
 function comment (state = initComment, action) {
   switch (action.type) {
     case LIST_COMMENTS :
-    console.log(action)
       return {
         comment: action.data
       }
@@ -135,20 +122,12 @@ function comment (state = initComment, action) {
     case EDIT_COMMENT :
       return {
         ...state,
-        comment: [...state.comment.filter((comment) => (comment.id !== action.comment.id)), action.comment]
+        comment: state.comment.map((comment) => comment.id === action.comment.id ? action.comment : comment)
       }
     case VOTE_COMMENT :
-      const array = []
-      const newState = state.comment
-      for (var i = 0; i < newState.length; i++) {
-        if (newState[i].id === action.comment.id) {
-          newState[i].voteScore = action.comment.voteScore
-        }
-        array.push(newState[i])
-      }
       return {
         ...state,
-        comment: array
+        comment: state.comment.map((comment) => comment.id === action.comment.id ? action.comment : comment)
       }
     default :
       return state

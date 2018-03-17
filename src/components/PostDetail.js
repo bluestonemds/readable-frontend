@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { listCommentsDispatch, votePostDispath, editModal, deletePostDispatch, getPostDispatch } from '../actions'
 import Comments from './Comments'
-import EditPost from './EditPost'
 
 class PostDetail extends Component {
   componentDidMount () {
@@ -12,12 +11,13 @@ class PostDetail extends Component {
   }
 
   render () {
-    let post
-    if (!this.props.post.posts) {
+    if (!this.props.post.posts || !this.props.post.posts[0]) {
       return (<div>nothing to show.</div>)
-    } else {
-      post = this.props.post.posts[0]
     }
+    if (this.props.match.params.postid !== this.props.post.posts[0].id) {
+      return (<h4>nothing</h4>)
+    }
+    let post = this.props.post.posts[0]
     return (
       <div className='card'>
         <div className='card-body'>
@@ -29,7 +29,7 @@ class PostDetail extends Component {
           <div>
             <p>{post.body}</p>
           </div>
-          <button type='button' className='btn btn-outline-primary btn-sm' onClick={() => (this.props.handleModal(true))}>Edit</button>
+          <Link to={`/${post.category}/${post.id}/edit`} className='btn btn-outline-primary btn-sm' onClick={() => { this.props.handleModal(true) }}>Edit</Link>
           <button type='button' className='btn btn-outline-danger btn-sm' onClick={() => (this.props.deletePost(post.id))}>Delete</button>
           <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(post.id, 'upVote'))}>upVote</button>
           <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(post.id, 'downVote'))}>downVote</button>
@@ -37,10 +37,6 @@ class PostDetail extends Component {
             <Comments
             />
           </div>
-          <EditPost
-            props={post}
-            interfaceCon={this.props.interfaceCon}
-          />
         </div>
       </div>
     )

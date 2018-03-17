@@ -8,7 +8,6 @@ import { addCommentsDispatch, deleteCommentDispatch, voteCommentDispath } from '
 class Comments extends Component {
   render () {
     let comment = this.props.comment.comment
-    let post = this.props.post
     return (
       <Fragment>
         <h4>Comments</h4>
@@ -18,14 +17,14 @@ class Comments extends Component {
               <li className='list-unstyled' key={index}>
                 <h4>author: {comment.author}</h4>
                 <span>voteScore: {comment.voteScore}</span>
-                <Link className='btn btn-outline-primary btn-sm' to={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'}>
+                <Link className='btn btn-outline-primary btn-sm' to={'/' + this.props.match.params.cat + '/' + this.props.match.params.postid + '/' + comment.id + '/' + 'editComment'}>
                    EditComment
                 </Link>
                 <button className='btn btn-outline-danger btn-sm' onClick={() => (this.props.deleteComment(comment.id))}>Delete</button>
                 <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(comment.id, 'upVote'))}>upVote</button>
                 <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(comment.id, 'downVote'))}>downVote</button>
                 <div>{comment.body}</div>
-                <Route exact path={'/' + post.currentCategory + '/' + post.currentPostId + '/' + comment.id + '/' + 'editComment'} render={(props) => (
+                <Route exact path={'/' + this.props.match.params.cat + '/' + this.props.match.params.postid + '/' + comment.id + '/' + 'editComment'} render={() => (
                   <EditComment
                     currentComment={comment}
                   />
@@ -36,13 +35,13 @@ class Comments extends Component {
           }
         </ul>
         <div>
-          <Link to={'/' + post.currentCategory + '/' + post.currentPostId + '/createComment'}>
+          <Link to={'/' + this.props.match.params.cat + '/' + this.props.match.params.postid + '/createComment'}>
             CreateComment
           </Link>
-          <Route exact path={'/' + post.currentCategory + '/' + post.currentPostId + '/createComment'} render={(props) => (
+          <Route exact path={'/' + this.props.match.params.cat + '/' + this.props.match.params.postid + '/createComment'} render={(props) => (
             <CreateComment
               handle={this.props.addComment}
-              postid={this.props.post.currentPostId}
+              postid={this.props.match.params.postid}
             />
           )}
           />
