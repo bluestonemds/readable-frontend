@@ -1,8 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
-import { listCommentsDispatch, votePostDispath, editModal, deletePostDispatch, getPostDispatch } from '../actions'
-import Comments from './Comments'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import {
+  listCommentsDispatch,
+  votePostDispath,
+  editModal,
+  deletePostDispatch,
+  getPostDispatch
+} from '../actions';
+import Comments from './Comments';
 
 class PostDetail extends Component {
   componentDidMount () {
@@ -12,10 +18,10 @@ class PostDetail extends Component {
 
   render () {
     if (!this.props.post.posts || !this.props.post.posts[0]) {
-      return (<div>nothing to show.</div>)
+      return <div>nothing to show.</div>
     }
     if (this.props.match.params.postid !== this.props.post.posts[0].id) {
-      return (<h4>nothing</h4>)
+      return <h4>nothing</h4>
     }
     let post = this.props.post.posts[0]
     return (
@@ -29,13 +35,36 @@ class PostDetail extends Component {
           <div>
             <p>{post.body}</p>
           </div>
-          <Link to={`/${post.category}/${post.id}/edit`} className='btn btn-outline-primary btn-sm' onClick={() => { this.props.handleModal(true) }}>Edit</Link>
-          <button type='button' className='btn btn-outline-danger btn-sm' onClick={() => (this.props.deletePost(post.id))}>Delete</button>
-          <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(post.id, 'upVote'))}>upVote</button>
-          <button className='btn btn-outline-secondary btn-sm' onClick={() => (this.props.handleVote(post.id, 'downVote'))}>downVote</button>
+          <Link
+            to={`/${post.category}/${post.id}/edit`}
+            className='btn btn-outline-primary btn-sm'
+            onClick={() => {
+              this.props.handleModal(true)
+            }}
+          >
+            Edit
+          </Link>
+          <button
+            type='button'
+            className='btn btn-outline-danger btn-sm'
+            onClick={() => this.props.deletePost(post.id)}
+          >
+            Delete
+          </button>
+          <button
+            className='btn btn-outline-secondary btn-sm'
+            onClick={() => this.props.handleVote(post.id, 'upVote')}
+          >
+            upVote
+          </button>
+          <button
+            className='btn btn-outline-secondary btn-sm'
+            onClick={() => this.props.handleVote(post.id, 'downVote')}
+          >
+            downVote
+          </button>
           <div>
-            <Comments
-            />
+            <Comments />
           </div>
         </div>
       </div>
@@ -48,15 +77,14 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    listComment: (postid) => dispatch(listCommentsDispatch(postid)),
+    listComment: postid => dispatch(listCommentsDispatch(postid)),
     handleVote: (postid, status) => dispatch(votePostDispath(postid, status)),
-    handleModal: (isOpen) => dispatch(editModal(isOpen)),
-    deletePost: (postid) => dispatch(deletePostDispatch(postid)),
-    listPost: (cat) => dispatch(getPostDispatch(cat))
+    handleModal: isOpen => dispatch(editModal(isOpen)),
+    deletePost: postid => dispatch(deletePostDispatch(postid)),
+    listPost: cat => dispatch(getPostDispatch(cat))
   }
 }
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostDetail))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PostDetail)
+)
